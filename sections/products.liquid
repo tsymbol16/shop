@@ -1,5 +1,18 @@
 <div class="container">
     <div class="product-card">
+        {% if section.settings.product.price != null %}
+            {% assign discount_percent = 100 | minus: section.settings.product.compare_at_price | times: 100 | divided_by: section.settings.product.price %}
+            {% assign discount_amount = product.price | minus: section.settings.product.compare_at_price %}
+            <div class="badge-container">
+            <div class="badge">Save {{ discount_percent }}% ({{ discount_amount | money_with_currency }})</div>
+            </div>
+        {% endif %}
+        {% comment %} {% if section.settings.product.price %}
+            {% capture discount %}
+                {{ section.settings.product.price | minus:section.settings.product.compare_at_price | times:100 | divided_by: section.settings.product.price }}%
+            {% endcapture %}
+            {{ discount }}
+        {% endif %} {% endcomment %}
         {% if section.settings.product.featured_image  != blank %}
             <div class="product-card-img">
                 <img src="{{ section.settings.product.featured_image | image_url: width
@@ -9,7 +22,7 @@
         <div class="product-card-title">{{section.settings.product.title}}</div>
         <div class="product-card-description">{{section.settings.product.description}}</div>
         <div class="card-prices">
-            {% if section.settings.product.compare_at_price != blank %}
+            {% if section.settings.product.compare_at_price_max != blank %}
                 <div class="product-card-price" style="text-decoration: line-through;">{{section.settings.product.price |  money }}</div>
                 <div class="product-card-compare">{{section.settings.product.compare_at_price |  money}}</div>
                 {% else %}
