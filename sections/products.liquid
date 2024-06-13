@@ -1,0 +1,191 @@
+<div class="container">
+    <div class="product-card">
+        {% if section.settings.product.featured_image  != blank %}
+            <div class="product-card-img">
+                <img src="{{ section.settings.product.featured_image | image_url: width
+                : 500 }}" alt="">
+            </div>
+        {% endif %}
+        <div class="product-card-title">{{section.settings.product.title}}</div>
+        <div class="product-card-title">{{section.settings.product.description}}</div>
+        {% if section.settings.product.compare_at_price != blank %}
+            <div class="product-card-title" style="text-decoration: line-through;">{{section.settings.product.price |  money }}</div>
+            <div class="product-card-title">{{section.settings.product.compare_at_price |  money}}</div>
+            {% else %}
+            <div class="product-card-title" >{{section.settings.product.price |  money }}</div>
+        {% endif %}
+
+        <a href="{{ section.settings.product.url }}">Shop now</a>
+    </div>
+
+
+
+    <div class="product-card">
+        {% if section.settings.product1.featured_image  != blank %}
+            <div class="product-card-img">
+                <img src="{{ section.settings.product1.featured_image | image_url: width
+                : 500 }}" alt="">
+            </div>
+        {% endif %}
+        <div class="product-card-title">{{section.settings.product1.title}}</div>
+        <div class="product-card-description">{{section.settings.product1.description}}</div>
+        {% if section.settings.product1.compare_at_price != blank %}
+            <div class="product-card-price" style="text-decoration: line-through;">{{section.settings.product1.price |  money }}</div>
+            <div class="product-card-compare">{{section.settings.product1.compare_at_price |  money}}</div>
+            {% else %}
+            <div class="product-card-price" >{{section.settings.product1.price |  money }}</div>
+        {% endif %}
+        <a href="{{ section.settings.product1.url }}">Shop now</a>
+    </div>
+
+
+    <div class="product-card">
+        {% if section.settings.product2.featured_image  != blank %}
+            <div class="product-card-img">
+                <img src="{{ section.settings.product2.featured_image | image_url: width
+                : 500 }}" alt="">
+            </div>
+        {% endif %}
+        <div class="product-card-title">{{section.settings.product2.title}}</div>
+        <div class="product-card-description">{{section.settings.product2.description}}</div>
+        {% if section.settings.product2.compare_at_price != blank %}
+            <div class="product-card-price" style="text-decoration: line-through;">{{section.settings.product2.price |  money }}</div>
+            <div class="product-card-compare">{{section.settings.product2.compare_at_price |  money}}</div>
+            {% else %}
+            <div class="product-card-price" >{{section.settings.product2.price |  money }}</div>
+        {% endif %}
+        <a href="{{ section.settings.product2.url }}">Shop now</a>
+    </div>
+
+
+</div>
+
+<style>
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 50px;
+    background-color: #f9f9f9;
+}
+
+.product-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    width: 30%;
+    text-align: center;
+    position: relative;
+}
+
+.product-card-img img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.product-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.product-card-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.product-card-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.product-card-compare {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e60000;
+}
+
+.product-card a {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.product-card a:hover {
+    background-color: #0056b3;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #e60000;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.color-options {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.color-options span {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 5px;
+    border: 2px solid #ddd;
+    cursor: pointer;
+}
+
+.color-options .black {
+    background-color: #000;
+}
+
+.color-options .white {
+    background-color: #fff;
+    border-color: #000;
+}
+
+</style>
+
+
+{% schema %}
+{
+    "name": "Products",
+    "settings": [
+        {
+        "type": "product",
+        "id": "product",
+        "label": "Product-Handle"
+        },
+        {
+        "type": "product",
+        "id": "product1",
+        "label": "Product-Handle"
+        },
+        {
+        "type": "product",
+        "id": "product2",
+        "label": "Product-Handle"
+        }
+     ],
+     "presets": [
+    {
+      "name": "Products"
+    }
+  ]
+}
+{% endschema %}
