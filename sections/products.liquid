@@ -1,5 +1,18 @@
 <div class="container">
     <div class="product-card">
+        {% if section.settings.product.price != null %}
+            {% assign discount_percent = 100 | minus: section.settings.product.compare_at_price | times: 100 | divided_by: section.settings.product.price %}
+            {% assign discount_amount = product.price | minus: section.settings.product.compare_at_price %}
+            <div class="badge-container">
+            <div class="badge">Save {{ discount_percent }}% ({{ discount_amount | money_with_currency }})</div>
+            </div>
+        {% endif %}
+        {% comment %} {% if section.settings.product.price %}
+            {% capture discount %}
+                {{ section.settings.product.price | minus:section.settings.product.compare_at_price | times:100 | divided_by: section.settings.product.price }}%
+            {% endcapture %}
+            {{ discount }}
+        {% endif %} {% endcomment %}
         {% if section.settings.product.featured_image  != blank %}
             <div class="product-card-img">
                 <img src="{{ section.settings.product.featured_image | image_url: width
@@ -7,14 +20,15 @@
             </div>
         {% endif %}
         <div class="product-card-title">{{section.settings.product.title}}</div>
-        <div class="product-card-title">{{section.settings.product.description}}</div>
-        {% if section.settings.product.compare_at_price != blank %}
-            <div class="product-card-title" style="text-decoration: line-through;">{{section.settings.product.price |  money }}</div>
-            <div class="product-card-title">{{section.settings.product.compare_at_price |  money}}</div>
-            {% else %}
-            <div class="product-card-title" >{{section.settings.product.price |  money }}</div>
-        {% endif %}
-
+        <div class="product-card-description">{{section.settings.product.description}}</div>
+        <div class="card-prices">
+            {% if section.settings.product.compare_at_price_max != blank %}
+                <div class="product-card-price" style="text-decoration: line-through;">{{section.settings.product.price |  money }}</div>
+                <div class="product-card-compare">{{section.settings.product.compare_at_price |  money}}</div>
+                {% else %}
+                <div class="product-card-price" >{{section.settings.product.price |  money }}</div>
+            {% endif %}
+        </div>
         <a href="{{ section.settings.product.url }}">Shop now</a>
     </div>
 
@@ -33,7 +47,7 @@
             <div class="product-card-price" style="text-decoration: line-through;">{{section.settings.product1.price |  money }}</div>
             <div class="product-card-compare">{{section.settings.product1.compare_at_price |  money}}</div>
             {% else %}
-            <div class="product-card-price" >{{section.settings.product1.price |  money }}</div>
+            <div class="product-card-price" style="font-weight: bold; color: #1C1D1C;">{{section.settings.product1.price |  money }}</div>
         {% endif %}
         <a href="{{ section.settings.product1.url }}">Shop now</a>
     </div>
@@ -52,7 +66,7 @@
             <div class="product-card-price" style="text-decoration: line-through;">{{section.settings.product2.price |  money }}</div>
             <div class="product-card-compare">{{section.settings.product2.compare_at_price |  money}}</div>
             {% else %}
-            <div class="product-card-price" >{{section.settings.product2.price |  money }}</div>
+            <div class="product-card-price" style="font-weight: bold; color: #1C1D1C;">{{section.settings.product2.price |  money }}</div>
         {% endif %}
         <a href="{{ section.settings.product2.url }}">Shop now</a>
     </div>
@@ -63,32 +77,36 @@
 <style>
 .container {
     display: flex;
-    justify-content: space-between;
-    padding: 50px;
-    background-color: #f9f9f9;
+    background-color: #ffff;
+    gap: 20px;
+    max-width: 1366px;
+    margin: 0 auto;
 }
 
 .product-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: #F4F1EF;
     padding: 20px;
-    width: 30%;
+    width: 33%;
     text-align: center;
     position: relative;
 }
 
 .product-card-img img {
     max-width: 100%;
-    border-radius: 8px;
 }
 
 .product-card-title {
     font-size: 18px;
     font-weight: bold;
     margin: 15px 0;
+    color: #1C1D1C;
 }
-
+.card-prices {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
 .product-card-description {
     font-size: 14px;
     color: #666;
@@ -97,31 +115,22 @@
 
 .product-card-price {
     font-size: 16px;
-    font-weight: bold;
-    color: #333;
+    color: #666666;
 }
 
 .product-card-compare {
     font-size: 16px;
     font-weight: bold;
-    color: #e60000;
+    color: #1C1D1C;
 }
 
 .product-card a {
     display: inline-block;
     margin-top: 15px;
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+    color: #1C1D1C;
     text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
 }
-
-.product-card a:hover {
-    background-color: #0056b3;
-}
-
 .discount-badge {
     position: absolute;
     top: 20px;
