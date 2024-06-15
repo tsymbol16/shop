@@ -1,10 +1,10 @@
 <div class="container">
     <div class="product-card">
         {% if section.settings.product.price != null %}
-            {% assign discount_percent = 100 | minus: section.settings.product.compare_at_price | times: 100 | divided_by: section.settings.product.price %}
-            {% assign discount_amount = product.price | minus: section.settings.product.compare_at_price %}
+            {% assign discount_percent1 =  section.settings.product.compare_at_price | times: 100 | divided_by: section.settings.product.price %}
+            {% assign discount_percent =100 | minus: discount_percent1 %}
             <div class="badge-container">
-            <div class="badge">Save {{ discount_percent }}% ({{ discount_amount | money_with_currency }})</div>
+            <div class="badge">Save {{ discount_percent }}% </div>
             </div>
         {% endif %}
         {% comment %} {% if section.settings.product.price %}
@@ -41,6 +41,7 @@
                 : 500 }}" alt="">
             </div>
         {% endif %}
+
         <div class="product-card-title">{{section.settings.product1.title}}</div>
         <div class="product-card-description">{{section.settings.product1.description}}</div>
         {% if section.settings.product1.compare_at_price != blank %}
@@ -60,6 +61,19 @@
                 : 500 }}" alt="">
             </div>
         {% endif %}
+            {% if section.settings.product2.variants != blank %}
+             <div class="product_variants">
+               {% assign variants = section.settings.product2.variants.size | minus: 3 %}
+               {% for variant in section.settings.product2.variants %}
+                <div class="product_variant" style="background:{{ variant.title }}">{{ variant.title }}</div>
+                 {% if forloop.index == 3 %}
+                   {% break %}
+                   {% endif %}
+                  
+                 {% endfor %}
+               + {{ variants }}
+             </div>
+            {% endif %}
         <div class="product-card-title">{{section.settings.product2.title}}</div>
         <div class="product-card-description">{{section.settings.product2.description}}</div>
         {% if section.settings.product2.compare_at_price != blank %}
@@ -167,7 +181,18 @@
     background-color: #fff;
     border-color: #000;
 }
-
+  .product_variants {
+    display: flex;
+    gap: 5px;
+  }
+.product_variant {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  font-size: 0;
+  color: transparent;
+  
+}
 </style>
 
 
