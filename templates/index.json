@@ -224,8 +224,8 @@
       "type": "products",
       "settings": {
         "product": "home-heating-starter-kit",
-        "product1": "",
-        "product2": ""
+        "product1": "solus-m1",
+        "product2": "solus-m2"
       }
     }
   },
