@@ -4,7 +4,7 @@
             {% assign discount_percent1 =  section.settings.product.compare_at_price | times: 100 | divided_by: section.settings.product.price %}
             {% assign discount_percent =100 | minus: discount_percent1 %}
             <div class="badge-container">
-            <div class="badge">Save {{ discount_percent }}% </div>
+            <div class="badge">-{{ discount_percent }}% </div>
             </div>
         {% endif %}
         {% comment %} {% if section.settings.product.price %}
@@ -41,7 +41,18 @@
                 : 500 }}" alt="">
             </div>
         {% endif %}
-
+        {% if section.settings.product1.variants != blank %}
+            <div class="product_variants">
+                {% assign variants = section.settings.product1.variants.size | minus: 3 %}
+                {% for variant in section.settings.product1.variants %}
+                <div class="product_variant" style="background:{{ variant.title }}">{{ variant.title }}</div>
+                    {% if forloop.index == 3 %}
+                    {% break %}
+                    {% endif %}
+                    {% endfor %}
+                + {{ variants }}
+            </div>
+        {% endif %}
         <div class="product-card-title">{{section.settings.product1.title}}</div>
         <div class="product-card-description">{{section.settings.product1.description}}</div>
         {% if section.settings.product1.compare_at_price != blank %}
@@ -57,22 +68,21 @@
     <div class="product-card">
         {% if section.settings.product2.featured_image  != blank %}
             <div class="product-card-img">
-                <img src="{{ section.settings.product2.featured_image | image_url: width
+                <img class="main-product-image" id="product-img-1" src="{{ section.settings.product2.featured_image | image_url: width
                 : 500 }}" alt="">
             </div>
         {% endif %}
             {% if section.settings.product2.variants != blank %}
-             <div class="product_variants">
-               {% assign variants = section.settings.product2.variants.size | minus: 3 %}
-               {% for variant in section.settings.product2.variants %}
-                <div class="product_variant" style="background:{{ variant.title }}">{{ variant.title }}</div>
-                 {% if forloop.index == 3 %}
-                   {% break %}
-                   {% endif %}
-                  
-                 {% endfor %}
-               + {{ variants }}
-             </div>
+                <div class="product_variants">
+                    {% assign variants = section.settings.product2.variants.size | minus: 3 %}
+                    {% for variant in section.settings.product2.variants %}
+                        <div class="product_variant" data-image="{{ variant.image | image_url: width  : 500}}" style="background:{{ variant.title }}">{{ variant.title }}</div>
+                        {% if forloop.index == 3 %}
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+                    + {{ variants }}
+                </div>
             {% endif %}
         <div class="product-card-title">{{section.settings.product2.title}}</div>
         <div class="product-card-description">{{section.settings.product2.description}}</div>
@@ -184,6 +194,8 @@
   .product_variants {
     display: flex;
     gap: 5px;
+    justify-content: center;
+    align-items: center;
   }
 .product_variant {
   width: 30px;
@@ -191,9 +203,42 @@
   border-radius: 30px;
   font-size: 0;
   color: transparent;
-  
+  cursor: pointer;
+}
+.badge-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.badge {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    font-size: 17px;
+    font-weight: bold;
 }
 </style>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const variants = document.querySelectorAll('.product_variant');
+    variants.forEach(variant => {
+        variant.addEventListener('click', function() {
+            const newImgSrc = this.getAttribute('data-image');
+            const productCard = this.closest('.product-card');
+            const mainImage = productCard.querySelector('.main-product-image')
+            if (newImgSrc && mainImage) {
+                mainImage.src = newImgSrc;
+            }
+        });
+    });
+});
+</script>
 
 
 {% schema %}
