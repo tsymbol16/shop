@@ -1,101 +1,93 @@
 <div class="container">
     <div class="product-card">
         {% if section.settings.product.price != null %}
-            {% assign discount_percent1 =  section.settings.product.compare_at_price | times: 100 | divided_by: section.settings.product.price %}
-            {% assign discount_percent =100 | minus: discount_percent1 %}
+            {% assign discount_percent1 = section.settings.product.compare_at_price | times: 100 | divided_by: section.settings.product.price %}
+            {% assign discount_percent = 100 | minus: discount_percent1 %}
             <div class="badge-container">
-            <div class="badge">-{{ discount_percent }}% </div>
+                <div class="badge">-{{ discount_percent }}%</div>
             </div>
         {% endif %}
-        {% comment %} {% if section.settings.product.price %}
-            {% capture discount %}
-                {{ section.settings.product.price | minus:section.settings.product.compare_at_price | times:100 | divided_by: section.settings.product.price }}%
-            {% endcapture %}
-            {{ discount }}
-        {% endif %} {% endcomment %}
-        {% if section.settings.product.featured_image  != blank %}
+        {% if section.settings.product.featured_image != blank %}
             <div class="product-card-img">
-                <img src="{{ section.settings.product.featured_image | image_url: width
-                : 500 }}" alt="">
+                <img class="main-product-image" src="{{ section.settings.product.featured_image | image_url: width: 500 }}" alt="">
             </div>
         {% endif %}
-        <div class="product-card-title">{{section.settings.product.title}}</div>
-        <div class="product-card-description">{{section.settings.product.description}}</div>
+        <div class="product-card-title">{{ section.settings.product.title }}</div>
+        <div class="product-card-description">{{ section.settings.product.description }}</div>
         <div class="card-prices">
             {% if section.settings.product.compare_at_price_max != blank %}
-                <div class="product-card-price" style="text-decoration: line-through;">{{section.settings.product.price |  money }}</div>
-                <div class="product-card-compare">{{section.settings.product.compare_at_price |  money}}</div>
-                {% else %}
-                <div class="product-card-price" >{{section.settings.product.price |  money }}</div>
+                <div class="product-card-price" style="text-decoration: line-through;">{{ section.settings.product.price | money }}</div>
+                <div class="product-card-compare">{{ section.settings.product.compare_at_price | money }}</div>
+            {% else %}
+                <div class="product-card-price">{{ section.settings.product.price | money }}</div>
             {% endif %}
         </div>
         <a href="{{ section.settings.product.url }}">Shop now</a>
     </div>
 
-
-
     <div class="product-card">
-        {% if section.settings.product1.featured_image  != blank %}
+        {% if section.settings.product1.featured_image != blank %}
             <div class="product-card-img">
-                <img src="{{ section.settings.product1.featured_image | image_url: width
-                : 500 }}" alt="">
+                <img class="main-product-image" src="{{ section.settings.product1.featured_image | image_url: width: 500 }}" alt="">
             </div>
         {% endif %}
         {% if section.settings.product1.variants != blank %}
             <div class="product_variants">
                 {% assign variants = section.settings.product1.variants.size | minus: 3 %}
                 {% for variant in section.settings.product1.variants %}
-                <div class="product_variant" style="background:{{ variant.title }}">{{ variant.title }}</div>
-                    {% if forloop.index == 3 %}
-                    {% break %}
+                    {% if forloop.index <= 3 %}
+                        <div class="product_variant" data-image="{{ variant.image }}" style="background:{{ variant.title }}">{{ variant.title }}</div>
+                    {% else %}
+                        <div class="product_variant hidden" data-hidden="true" data-image="{{ variant.image }}" style="background:{{ variant.title }}">{{ variant.title }}</div>
                     {% endif %}
-                    {% endfor %}
-                + {{ variants }}
+                {% endfor %}
+                {% if variants > 0 %}
+                    <div class="show-more" data-remaining="{{ variants }}">+ {{ variants }}</div>
+                {% endif %}
             </div>
         {% endif %}
-        <div class="product-card-title">{{section.settings.product1.title}}</div>
-        <div class="product-card-description">{{section.settings.product1.description}}</div>
+        <div class="product-card-title">{{ section.settings.product1.title }}</div>
+        <div class="product-card-description">{{ section.settings.product1.description }}</div>
         {% if section.settings.product1.compare_at_price != blank %}
-            <div class="product-card-price" style="text-decoration: line-through;">{{section.settings.product1.price |  money }}</div>
-            <div class="product-card-compare">{{section.settings.product1.compare_at_price |  money}}</div>
-            {% else %}
-            <div class="product-card-price" style="font-weight: bold; color: #1C1D1C;">{{section.settings.product1.price |  money }}</div>
+            <div class="product-card-price" style="text-decoration: line-through;">{{ section.settings.product1.price | money }}</div>
+            <div class="product-card-compare">{{ section.settings.product1.compare_at_price | money }}</div>
+        {% else %}
+            <div class="product-card-price" style="font-weight: bold; color: #1C1D1C;">{{ section.settings.product1.price | money }}</div>
         {% endif %}
         <a href="{{ section.settings.product1.url }}">Shop now</a>
     </div>
 
-
     <div class="product-card">
-        {% if section.settings.product2.featured_image  != blank %}
+        {% if section.settings.product2.featured_image != blank %}
             <div class="product-card-img">
-                <img class="main-product-image" id="product-img-1" src="{{ section.settings.product2.featured_image | image_url: width
-                : 500 }}" alt="">
+                <img class="main-product-image" id="product-img-1" src="{{ section.settings.product2.featured_image | image_url: width: 500 }}" alt="">
             </div>
         {% endif %}
-            {% if section.settings.product2.variants != blank %}
-                <div class="product_variants">
-                    {% assign variants = section.settings.product2.variants.size | minus: 3 %}
-                    {% for variant in section.settings.product2.variants %}
-                        <div class="product_variant" data-image="{{ variant.image | image_url: width  : 500}}" style="background:{{ variant.title }}">{{ variant.title }}</div>
-                        {% if forloop.index == 3 %}
-                            {% break %}
-                        {% endif %}
-                    {% endfor %}
-                    + {{ variants }}
-                </div>
-            {% endif %}
-        <div class="product-card-title">{{section.settings.product2.title}}</div>
-        <div class="product-card-description">{{section.settings.product2.description}}</div>
+        {% if section.settings.product2.variants != blank %}
+            <div class="product_variants">
+                {% assign variants = section.settings.product2.variants.size | minus: 3 %}
+                {% for variant in section.settings.product2.variants %}
+                    {% if forloop.index <= 3 %}
+                        <div class="product_variant" data-image="{{ variant.image | image_url: width: 500 }}" style="background:{{ variant.title }}">{{ variant.title }}</div>
+                    {% else %}
+                        <div class="product_variant hidden" data-hidden="true" data-image="{{ variant.image | image_url: width: 500 }}" style="background:{{ variant.title }}">{{ variant.title }}</div>
+                    {% endif %}
+                {% endfor %}
+                {% if variants > 0 %}
+                    <div class="more-variants" data-remaining="{{ variants }}">+ {{ variants }}</div>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="product-card-title">{{ section.settings.product2.title }}</div>
+        <div class="product-card-description">{{ section.settings.product2.description }}</div>
         {% if section.settings.product2.compare_at_price != blank %}
-            <div class="product-card-price" style="text-decoration: line-through;">{{section.settings.product2.price |  money }}</div>
-            <div class="product-card-compare">{{section.settings.product2.compare_at_price |  money}}</div>
-            {% else %}
-            <div class="product-card-price" style="font-weight: bold; color: #1C1D1C;">{{section.settings.product2.price |  money }}</div>
+            <div class="product-card-price" style="text-decoration: line-through;">{{ section.settings.product2.price | money }}</div>
+            <div class="product-card-compare">{{ section.settings.product2.compare_at_price | money }}</div>
+        {% else %}
+            <div class="product-card-price" style="font-weight: bold; color: #1C1D1C;">{{ section.settings.product2.price | money }}</div>
         {% endif %}
         <a href="{{ section.settings.product2.url }}">Shop now</a>
     </div>
-
-
 </div>
 
 <style>
@@ -125,12 +117,14 @@
     margin: 15px 0;
     color: #1C1D1C;
 }
+
 .card-prices {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
 }
+
 .product-card-description {
     font-size: 14px;
     color: #666;
@@ -155,6 +149,7 @@
     color: #1C1D1C;
     text-decoration: none;
 }
+
 .discount-badge {
     position: absolute;
     top: 20px;
@@ -191,25 +186,33 @@
     background-color: #fff;
     border-color: #000;
 }
-  .product_variants {
+
+.product_variants {
     display: flex;
     gap: 5px;
     justify-content: center;
     align-items: center;
-  }
-.product_variant {
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
-  font-size: 0;
-  color: transparent;
-  cursor: pointer;
 }
+
+.product_variant {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    font-size: 0;
+    color: transparent;
+    cursor: pointer;
+}
+
+.product_variant.hidden {
+    display: none;
+}
+
 .badge-container {
     display: flex;
     justify-content: end;
     align-items: center;
 }
+
 .badge {
     display: flex;
     justify-content: end;
@@ -220,26 +223,42 @@
     font-size: 17px;
     font-weight: bold;
 }
+
+.more-variants {
+    cursor: pointer;
+    font-size: 16px;
+    color: #1C1D1C;
+}
 </style>
-
-
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const variants = document.querySelectorAll('.product_variant');
+    const showMoreButtons = document.querySelectorAll('.more-variants');
+
     variants.forEach(variant => {
         variant.addEventListener('click', function() {
             const newImgSrc = this.getAttribute('data-image');
             const productCard = this.closest('.product-card');
-            const mainImage = productCard.querySelector('.main-product-image')
+            const mainImage = productCard.querySelector('.main-product-image');
             if (newImgSrc && mainImage) {
                 mainImage.src = newImgSrc;
             }
         });
     });
+
+    showMoreButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productCard = this.closest('.product-card');
+            const hiddenVariants = productCard.querySelectorAll('.product_variant.hidden');
+            hiddenVariants.forEach(variant => {
+                variant.classList.remove('hidden');
+            });
+            this.style.display = 'none';
+        });
+    });
 });
 </script>
-
 
 {% schema %}
 {
