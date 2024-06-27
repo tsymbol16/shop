@@ -249,6 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     showMoreButtons.forEach(button => {
         button.addEventListener('click', function() {
+            
             const productCard = this.closest('.product-card');
             const hiddenVariants = productCard.querySelectorAll('.product_variant.hidden');
             hiddenVariants.forEach(variant => {
