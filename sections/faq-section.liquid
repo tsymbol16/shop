@@ -1,0 +1,70 @@
+<!-- Section Template -->
+{% assign tabs = section.settings.tabs | split: "," %}
+<div class="container">
+    <div class="row">
+    <div class="col-12">
+       <div class="tabs d-flex">
+        {% for tab in tabs %}
+            <button class="tab {% if forloop.index == 1 %} active {% endif %}" data-active="dropdown_{{forloop.index}}">
+                {{tab}}
+            </button>
+        {% endfor %}
+       </div>
+       {% for tab in tabs %}
+        <div class="dropdown {% if forloop.index == 1 %} active {% endif %}" data-active="dropdown_{{forloop.index}}">
+                {% for block in section.blocks %}
+                    {% if block.settings.tab_handler == tab %}
+                        <div class="alert alert-info" data-drop='{{ forloop.index0 }}'>
+                            <a href="#" class="dropdown-link" data-drop='{{ forloop.index0 }}'>{{ block.settings.dropdown_title }}</a>
+                            <div class="dropdown-content" data-drop='{{ forloop.index0 }}'>
+                                {{ block.settings.dropdown_content }}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+</div>
+
+
+{% schema %}
+    {
+        "name": "FAQ Section",
+        "settings": [ {
+                "type": "text",
+                "id": "tabs",
+                "label": "Tabs"
+            }],
+        "blocks": [
+        {
+            "type": "dropdown",
+            "name": "Dropdown",
+            "settings": [
+                {
+                "type": "text",
+                "id": "tab_handler",
+                "label": "Tab name"
+            },
+            {
+                "type": "text",
+                "id": "dropdown_title",
+                "label": "Dropdown Title"
+            },
+            {
+                "type": "textarea",
+                "id": "dropdown_content",
+                "label": "Dropdown Content"
+            }
+            ]
+        }
+        ],
+        "presets": [
+        {
+            "name": "FAQ Section"
+        }
+        ]
+    }
+{% endschema %}
+    
