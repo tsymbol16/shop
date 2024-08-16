@@ -15,7 +15,13 @@
                 {% for block in section.blocks %}
                     {% if block.settings.tab_handler == tab %}
                         <div class="alert alert-info" data-drop='{{ forloop.index0 }}'>
-                            <a href="#" class="dropdown-link" data-drop='{{ forloop.index0 }}'>{{ block.settings.dropdown_title }}</a>
+                            <a href="#" class="dropdown-link" data-drop='{{ forloop.index0 }}'>{{ block.settings.dropdown_title }}
+                            <span class="arrows">
+                                <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1L6 6L11 1" stroke="#1C1D1C" stroke-linecap="round"/>
+                                </svg>                                
+                            </span>
+                            </a>
                             <div class="dropdown-content" data-drop='{{ forloop.index0 }}'>
                                 {{ block.settings.dropdown_content }}
                             </div>
